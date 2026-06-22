@@ -262,8 +262,10 @@
   .hero-input::placeholder{ color:#7d776c; opacity:1; }
 
   /* ---------- FOCUSED CHAT ---------- */
-  .chat-app{ position:fixed; inset:0; z-index:200; display:flex; flex-direction:column; background:var(--paper); visibility:hidden; clip-path:inset(calc(100% - 88px) 14px 24px 14px round 20px); transition:clip-path .52s var(--ease-out), visibility .52s; height:100dvh; }
-  .chat-app.open{ visibility:visible; clip-path:inset(0px 0px 0px 0px round 0px); }
+  .chat-app{ position:fixed; inset:0; z-index:200; display:flex; flex-direction:column; background:var(--paper); visibility:hidden; opacity:0; transition:opacity .38s var(--ease), visibility .38s; height:100dvh; }
+  .chat-app.open{ visibility:visible; opacity:1; }
+  /* dissolve the page behind when chat opens */
+  body.chat-open > *:not(#chatApp):not(.switcher):not(svg){ opacity:0; transition:opacity .28s var(--ease); pointer-events:none; }
   .chat-app-head{ flex-shrink:0; display:flex; align-items:center; justify-content:space-between; padding:16px 28px; border-bottom:1px solid var(--line); background:rgba(251,249,243,.82); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); }
   .chat-app-head .brand{ cursor:pointer; }
   .chat-close{ width:40px; height:40px; border-radius:50%; border:1px solid var(--line); background:#fff; display:grid; place-items:center; cursor:pointer; color:var(--ink-2); transition:background .25s var(--ease), transform .35s var(--ease); }
@@ -454,7 +456,7 @@
 
       <div class="badges reveal in d4">
         <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="11" width="15" height="9" rx="2"/><path d="M8 11V7.5a4 4 0 0 1 8 0V11"/></svg> Private and secure</span>
-        <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2l8 8-10 10-3-3 7-7-2-2-7 7-3-3L14 2z"/><path d="M3 21l3.5-3.5"/></svg> Built with attorney oversight</span>
+        <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="17.5" width="10" height="2.5" rx="1"/><rect x="4" y="20" width="6" height="1.5" rx="0.75"/><line x1="13" y1="17" x2="7" y2="11"/><rect x="5.5" y="4" width="5" height="9" rx="1" transform="rotate(45 8 8.5)"/><rect x="13.5" y="2" width="5" height="9" rx="1" transform="rotate(45 16 6.5)"/></svg> Built with attorney oversight</span>
       </div>
       <p class="disclaimer reveal in d5">This chat is not legal advice; use constitutes agreement to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>
     </div>
@@ -735,6 +737,7 @@
   function openChat(initial){
     chatApp.classList.add('open');
     chatApp.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('chat-open');
     document.body.style.overflow = 'hidden';
     if(initial){ addMsg('user', initial); botRespond(initial); }
     else if(!chatStarted){ addMsg('bot', greeting); }
@@ -744,6 +747,7 @@
   function closeChat(){
     chatApp.classList.remove('open');
     chatApp.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('chat-open');
     document.body.style.overflow = '';
   }
   function sendFromApp(){
