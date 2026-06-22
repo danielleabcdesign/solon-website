@@ -132,7 +132,7 @@
   @media (max-width:900px){ .disclaimer{ white-space:normal; max-width:440px; } }
 
   /* learn more pinned */
-  .scroll-hint{ position:fixed; left:50%; bottom:26px; transform:translateX(-50%); z-index:55; display:flex; flex-direction:column; align-items:center; gap:6px; font-family:var(--sans); font-size:12px; font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft); cursor:pointer; background:none; border:none; transition:opacity .5s var(--ease), transform .5s var(--ease); }
+  .scroll-hint{ position:fixed; left:50%; bottom:26px; transform:translateX(-50%); z-index:55; display:flex; flex-direction:column; align-items:center; gap:6px; font-family:var(--sans); font-size:12px; font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); cursor:pointer; background:none; border:none; transition:opacity .5s var(--ease), transform .5s var(--ease); }
   .scroll-hint.hidden{ opacity:0; transform:translateX(-50%) translateY(12px); pointer-events:none; }
   .scroll-hint svg{ width:18px; height:18px; animation:bob 1.8s var(--ease-out) infinite; }
 
@@ -378,16 +378,20 @@
       <feTurbulence type="fractalNoise" baseFrequency="0.09" numOctaves="2" seed="4" result="n"/>
       <feDisplacementMap in="SourceGraphic" in2="n" scale="1.6" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
-    <symbol id="solonCol" viewBox="0 0 30 36">
+    <symbol id="solonCol" viewBox="0 0 14 26">
       <g fill="currentColor">
-        <rect x="4" y="4.5" width="22" height="3" rx="0.6"/>
-        <rect x="6" y="8" width="18" height="1.9"/>
-        <rect x="7" y="10.4" width="3.3" height="15.2"/>
-        <rect x="11.3" y="10.4" width="3.3" height="15.2"/>
-        <rect x="15.6" y="10.4" width="3.3" height="15.2"/>
-        <rect x="19.9" y="10.4" width="3.3" height="15.2"/>
-        <rect x="6" y="26.1" width="18" height="1.9"/>
-        <rect x="4" y="28.5" width="22" height="3" rx="0.6"/>
+        <rect x="0" y="0" width="14" height="2" rx="0.5"/>
+        <path d="M1 2 Q0 3.5 1 4.5 L13 4.5 Q14 3.5 13 2 Z"/>
+        <rect x="2.5" y="4.5" width="9" height="1.5" rx="0.5"/>
+        <rect x="2.5" y="6" width="9" height="14"/>
+        <rect x="3.5" y="6" width="0.8" height="14" fill="var(--paper)"/>
+        <rect x="5.5" y="6" width="0.8" height="14" fill="var(--paper)"/>
+        <rect x="7.5" y="6" width="0.8" height="14" fill="var(--paper)"/>
+        <rect x="9.5" y="6" width="0.8" height="14" fill="var(--paper)"/>
+        <rect x="2.5" y="20" width="9" height="1.5"/>
+        <rect x="1" y="21.5" width="12" height="1.5"/>
+        <rect x="0" y="23" width="14" height="1.5" rx="0.5"/>
+        <rect x="0" y="24.5" width="14" height="1.5" rx="0.5"/>
       </g>
     </symbol>
   </defs></svg>
@@ -396,7 +400,7 @@
   <nav class="nav" id="nav">
     <div class="nav-left">
     <a class="brand" href="#top">
-      <svg viewBox="0 0 30 36" aria-hidden="true"><use href="#solonCol"/></svg>
+      <svg viewBox="0 0 14 26" aria-hidden="true"><use href="#solonCol"/></svg>
       Solon
     </a>
     <div class="nav-links">
@@ -562,7 +566,7 @@
     <div class="wrap foot-grid">
       <div class="foot-brand">
         <a class="brand" href="#top">
-          <svg viewBox="0 0 30 36" aria-hidden="true"><use href="#solonCol"/></svg>
+          <svg viewBox="0 0 14 26" aria-hidden="true"><use href="#solonCol"/></svg>
           Solon
         </a>
         <p>Easy, affordable legal action. Take action in minutes.</p>
@@ -589,7 +593,7 @@
   <div class="chat-app" id="chatApp" aria-hidden="true">
     <header class="chat-app-head">
       <a class="brand" id="chatBack" href="#top">
-        <svg viewBox="0 0 30 36" aria-hidden="true"><use href="#solonCol"/></svg>
+        <svg viewBox="0 0 14 26" aria-hidden="true"><use href="#solonCol"/></svg>
         Solon
       </a>
       <button class="chat-close" id="chatClose" aria-label="Close chat"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button>
