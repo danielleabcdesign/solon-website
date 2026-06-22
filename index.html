@@ -744,6 +744,8 @@
     chatApp.classList.remove('open');
     chatApp.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('chat-open');
+    chatApp.style.height = '';
+    chatApp.style.top = '';
   }
   function sendFromApp(){
     const v = chatAppInput.value.trim();
@@ -760,6 +762,18 @@
   document.getElementById('nudgeDismiss').addEventListener('click', ()=> nudgeBanner.classList.remove('show'));
   document.getElementById('nudgeCta').addEventListener('click', ()=> nudgeBanner.classList.remove('show'));
   document.addEventListener('keydown', e=>{ if(e.key === 'Escape' && chatApp.classList.contains('open')) closeChat(); });
+
+  // iOS Safari keyboard: resize chat-app to the visual viewport
+  if(window.visualViewport){
+    const vpHandler = ()=>{
+      if(chatApp.classList.contains('open')){
+        chatApp.style.height = window.visualViewport.height + 'px';
+        chatApp.style.top = window.visualViewport.offsetTop + 'px';
+      }
+    };
+    window.visualViewport.addEventListener('resize', vpHandler);
+    window.visualViewport.addEventListener('scroll', vpHandler);
+  }
 
   if(heroInput && heroSend){
     heroSend.disabled = true;
