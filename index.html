@@ -262,13 +262,22 @@
   .hero-input::placeholder{ color:#7d776c; opacity:1; }
 
   /* ---------- FOCUSED CHAT ---------- */
-  .chat-app{ position:fixed; inset:0; z-index:200; display:flex; flex-direction:column; background:var(--paper); opacity:0; visibility:hidden; transform:scale(.992); transition:opacity .4s var(--ease), transform .45s var(--ease-out), visibility .4s; }
-  .chat-app.open{ opacity:1; visibility:visible; transform:none; }
+  .chat-app{ position:fixed; inset:0; z-index:200; display:flex; flex-direction:column; background:var(--paper); visibility:hidden; transform:translateY(100%); transition:transform .42s var(--ease-out), visibility .42s; height:100dvh; }
+  .chat-app.open{ visibility:visible; transform:translateY(0); }
   .chat-app-head{ flex-shrink:0; display:flex; align-items:center; justify-content:space-between; padding:16px 28px; border-bottom:1px solid var(--line); background:rgba(251,249,243,.82); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); }
   .chat-app-head .brand{ cursor:pointer; }
   .chat-close{ width:40px; height:40px; border-radius:50%; border:1px solid var(--line); background:#fff; display:grid; place-items:center; cursor:pointer; color:var(--ink-2); transition:background .25s var(--ease), transform .35s var(--ease); }
   .chat-close:hover{ background:var(--cream); transform:rotate(90deg); }
   .chat-thread{ flex:1; overflow-y:auto; padding:38px 0 16px; }
+  /* nudge banner */
+  .nudge{ position:absolute; bottom:90px; left:12px; right:12px; background:var(--ink); color:#F1ECE4; border-radius:14px; padding:14px 16px; display:flex; align-items:center; gap:12px; box-shadow:0 12px 32px rgba(36,35,27,.28); transform:translateY(16px); opacity:0; pointer-events:none; transition:opacity .35s var(--ease), transform .35s var(--ease-out); z-index:10; }
+  .nudge.show{ opacity:1; transform:translateY(0); pointer-events:auto; }
+  .nudge-text{ flex:1; font-size:13.5px; line-height:1.45; }
+  .nudge-text strong{ display:block; font-weight:600; margin-bottom:2px; }
+  .nudge-cta{ flex-shrink:0; font-family:var(--sans); font-size:13px; font-weight:500; padding:8px 14px; border-radius:8px; background:var(--accent); color:#F3F1E6; border:none; cursor:pointer; white-space:nowrap; transition:background .25s var(--ease); }
+  .nudge-cta:hover{ background:var(--accent-d); }
+  .nudge-dismiss{ flex-shrink:0; background:transparent; border:none; cursor:pointer; color:rgba(241,236,228,.5); padding:4px; line-height:1; font-size:18px; transition:color .2s; }
+  .nudge-dismiss:hover{ color:#F1ECE4; }
   .msg{ max-width:760px; margin:0 auto 24px; padding:0 28px; display:flex; gap:14px; animation:msgIn .4s var(--ease-out) both; }
   .msg.user{ justify-content:flex-end; }
   .msg.user .bubble{ background:var(--accent); color:#F3F1E6; padding:13px 17px; border-radius:18px 18px 5px 18px; font-size:15.5px; line-height:1.55; max-width:78%; transition:background .5s var(--ease); }
@@ -586,6 +595,11 @@
       <button class="chat-close" id="chatClose" aria-label="Close chat"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button>
     </header>
     <div class="chat-thread" id="chatThread"></div>
+    <div class="nudge" id="nudgeBanner">
+      <div class="nudge-text"><strong>Don't lose this conversation</strong>Create a free account to save your chat history.</div>
+      <button class="nudge-cta" id="nudgeCta">Sign up free</button>
+      <button class="nudge-dismiss" id="nudgeDismiss" aria-label="Dismiss">×</button>
+    </div>
     <div class="chat-app-input">
       <div class="cai-wrap">
         <textarea id="chatAppInput" rows="1" placeholder="Reply to Solon…" aria-label="Message Solon"></textarea>
@@ -680,7 +694,10 @@
   const chatThread = document.getElementById('chatThread');
   const chatAppInput = document.getElementById('chatAppInput');
   const heroSend = document.getElementById('heroSend');
+  const nudgeBanner = document.getElementById('nudgeBanner');
   let chatStarted = false;
+  let userMsgCount = 0;
+  let nudgeShown = false;
   const greeting = "Hi, I'm Solon. Tell me what happened — an unpaid deposit, a contractor who vanished, money you're owed — and I'll help you understand your options. What's going on?";
   const colIcon = '<svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="2.2" rx="1" fill="currentColor"/><rect x="6.6" y="6.2" width="2" height="10.4" fill="currentColor"/><rect x="11" y="6.2" width="2" height="10.4" fill="currentColor"/><rect x="15.4" y="6.2" width="2" height="10.4" fill="currentColor"/><rect x="4.2" y="17.6" width="15.6" height="2.4" rx="1" fill="currentColor"/></svg>';
 
@@ -730,12 +747,16 @@
     if(!v) return;
     chatAppInput.value = ''; chatAppInput.style.height = 'auto';
     addMsg('user', v); botRespond(v);
+    userMsgCount++;
+    if(userMsgCount >= 5 && !nudgeShown){ nudgeShown = true; setTimeout(()=> nudgeBanner.classList.add('show'), 800); }
   }
   document.getElementById('chatAppSend').addEventListener('click', sendFromApp);
   chatAppInput.addEventListener('keydown', e=>{ if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); sendFromApp(); } });
   chatAppInput.addEventListener('input', ()=>{ chatAppInput.style.height = 'auto'; chatAppInput.style.height = Math.min(chatAppInput.scrollHeight, 150) + 'px'; });
   document.getElementById('chatClose').addEventListener('click', closeChat);
   document.getElementById('chatBack').addEventListener('click', e=>{ e.preventDefault(); closeChat(); });
+  document.getElementById('nudgeDismiss').addEventListener('click', ()=> nudgeBanner.classList.remove('show'));
+  document.getElementById('nudgeCta').addEventListener('click', ()=> nudgeBanner.classList.remove('show'));
   document.addEventListener('keydown', e=>{ if(e.key === 'Escape' && chatApp.classList.contains('open')) closeChat(); });
 
   if(heroInput && heroSend){
