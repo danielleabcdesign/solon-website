@@ -266,7 +266,7 @@
   .hero-input::placeholder{ color:#7d776c; opacity:1; }
 
   /* ---------- FOCUSED CHAT ---------- */
-  .chat-app{ position:fixed; inset:0; z-index:200; display:flex; flex-direction:column; background:var(--paper); visibility:hidden; opacity:0; transition:opacity .38s var(--ease), visibility .38s; height:100dvh; }
+  .chat-app{ position:fixed; inset:0; z-index:200; display:flex; flex-direction:column; background:var(--paper); visibility:hidden; opacity:0; transition:opacity .38s var(--ease), visibility .38s; }
   .chat-app.open{ visibility:visible; opacity:1; }
   /* dissolve the page behind when chat opens */
   body.chat-open > *:not(#chatApp):not(.switcher):not(svg):not(#nav):not(#mobileMenu){ opacity:0; transition:opacity .28s var(--ease); pointer-events:none; }
@@ -303,7 +303,7 @@
   .cai-disc{ text-align:center; font-size:11px; color:var(--muted-2); margin-top:10px; }
   @keyframes msgIn{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:none; } }
   @keyframes typingBob{ 0%,60%,100%{ transform:translateY(0); opacity:.4; } 30%{ transform:translateY(-5px); opacity:1; } }
-  @media (max-width:900px){ .msg{ padding:0 18px; } .chat-app-head{ padding:14px 18px; } .chat-app-input{ padding:10px 14px 16px; } }
+  @media (max-width:900px){ .msg{ padding:0 24px; } .chat-app-input{ padding:10px 20px 16px; } }
 
   /* ---------- REVEAL ---------- */
   .reveal{ opacity:0; transform:translateY(26px); transition:opacity .9s var(--ease-out), transform .9s var(--ease-out); }
@@ -735,7 +735,6 @@
     chatApp.classList.add('open');
     chatApp.setAttribute('aria-hidden', 'false');
     document.body.classList.add('chat-open');
-    document.body.style.overflow = 'hidden';
     if(initial){ addMsg('user', initial); botRespond(initial); }
     else if(!chatStarted){ addMsg('bot', greeting); }
     chatStarted = true;
@@ -745,7 +744,6 @@
     chatApp.classList.remove('open');
     chatApp.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('chat-open');
-    document.body.style.overflow = '';
   }
   function sendFromApp(){
     const v = chatAppInput.value.trim();
