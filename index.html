@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
 <title>Solon — Easy, affordable legal action</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=Geist:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Public+Sans:wght@600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
 <style>
   @property --angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
 
@@ -37,8 +37,8 @@
     --eyebrow-c:var(--green-eye); --ital-c:var(--green-ital);
     /* type */
     --serif-hero:'Source Serif 4',Georgia,'Times New Roman',serif;
-    --serif:'PT Serif',Georgia,'Times New Roman',serif;
-    --sans:'Geist','Inter',system-ui,-apple-system,sans-serif;
+    --serif:'Source Serif 4',Georgia,'Times New Roman',serif;
+    --sans:'Hanken Grotesk','Inter',system-ui,-apple-system,sans-serif;
     --ease:cubic-bezier(.22,.61,.36,1);
     --ease-out:cubic-bezier(.16,1,.3,1);
   }
@@ -57,12 +57,11 @@
   .label{ font-family:var(--sans); font-size:12px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:var(--label); }
 
   /* ---------- NAV ---------- */
-  .nav{ position:fixed; top:0; left:0; right:0; z-index:250; display:flex; align-items:center; justify-content:space-between; padding:18px 40px; transition:background .4s var(--ease), box-shadow .4s var(--ease), padding .4s var(--ease); }
+  .nav{ position:fixed; top:0; left:0; right:0; z-index:250; display:flex; align-items:center; justify-content:space-between; padding:calc(env(safe-area-inset-top, 0px) + 18px) 40px 18px; transition:background .4s var(--ease), box-shadow .4s var(--ease), padding .4s var(--ease); }
+  /* nav never changes when chat opens — it's always the same nav */
   body.chat-open .nav-links{ display:none; }
-  body.chat-open .nav-right .login{ display:inline; }
-  @media (max-width:900px){ body.chat-open .nav-right .login{ display:none; } body.chat-open .btn:not(.nudge-cta){ display:none; } body.chat-open .hamburger{ display:flex; } }
-  body.chat-open .nav{ background:rgba(251,249,243,.9); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-bottom:1px solid rgba(36,35,27,.07); padding:12px 40px; }
-  .nav.scrolled{ background:rgba(238,233,223,.9); backdrop-filter:blur(14px) saturate(1.2); -webkit-backdrop-filter:blur(14px) saturate(1.2); border-bottom:1px solid rgba(36,35,27,.07); padding:12px 40px; }
+  @media (max-width:900px){ body.chat-open .btn:not(.nudge-cta){ display:none; } }
+  .nav.scrolled{ background:rgba(238,233,223,.9); backdrop-filter:blur(14px) saturate(1.2); -webkit-backdrop-filter:blur(14px) saturate(1.2); border-bottom:1px solid rgba(36,35,27,.07); padding:calc(env(safe-area-inset-top, 0px) + 12px) 40px 12px; }
   .brand{ display:flex; align-items:center; gap:11px; font-family:var(--serif); font-size:24px; font-weight:700; color:var(--ink); }
   .brand svg{ width:22px; height:27px; }
   .nav-left{ display:flex; align-items:center; gap:38px; }
@@ -96,20 +95,21 @@
   .switcher .group{ position:relative; display:flex; }
   .switcher button{ font-family:var(--sans); font-size:13px; font-weight:500; color:rgba(245,242,233,.6); background:transparent; border:none; cursor:pointer; padding:8px 16px; border-radius:999px; position:relative; z-index:1; transition:color .35s var(--ease); }
   .switcher button.active{ color:#23241c; }
-  .switcher .pill{ position:absolute; top:0; bottom:0; left:0; width:50%; background:var(--accent); border-radius:999px; z-index:0; transition:transform .45s var(--ease-out), background .5s var(--ease); }
+  .switcher .pill{ position:absolute; top:0; bottom:0; left:0; width:33.333%; background:var(--accent); border-radius:999px; z-index:0; transition:transform .45s var(--ease-out), background .5s var(--ease); }
   body[data-direction="simple"] .switcher .pill{ transform:translateX(100%); }
+  body[data-direction="social"] .switcher .pill{ transform:translateX(200%); }
   .switcher .lbl{ font-size:11px; color:rgba(245,242,233,.45); padding-left:12px; padding-right:4px; letter-spacing:.08em; text-transform:uppercase; }
 
   /* ---------- HERO ---------- */
-  .hero{ position:relative; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:140px 40px 120px; overflow:hidden; background:var(--cream); transition:background .6s var(--ease); }
+  .hero{ position:relative; min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:calc(env(safe-area-inset-top,0px) + 80px) 40px 0; overflow:hidden; background:var(--cream); transition:background .6s var(--ease); }
   body[data-direction="legal"] .hero{ background:var(--hero-legal); }
   .hero-bg{ position:absolute; inset:0; z-index:0; pointer-events:none; background-image:url('assets/courthouse-desktop.png'); background-size:cover; background-position:center 22%; opacity:0; transition:opacity 1.1s var(--ease); mix-blend-mode:multiply; }
   .hero-bg::after{ content:''; position:absolute; inset:0; background:radial-gradient(ellipse 60% 55% at 50% 42%, rgba(237,232,223,.92) 30%, rgba(237,232,223,.55) 70%, rgba(237,232,223,.2) 100%), linear-gradient(180deg, rgba(237,232,223,.5) 0%, rgba(237,232,223,0) 25%, rgba(237,232,223,0) 75%); }
   .hero::after{ content:''; position:absolute; left:0; right:0; bottom:0; height:46%; z-index:1; pointer-events:none; background:linear-gradient(180deg, transparent 0%, var(--hero-fade) 94%); }
   body[data-direction="legal"] .hero-bg{ opacity:.5; }
 
-  .hero-inner{ position:relative; z-index:2; max-width:780px; width:100%; display:flex; flex-direction:column; align-items:center; }
-  .hero h1{ font-family:var(--serif-hero); font-weight:500; font-size:clamp(32px,5vw,48px); line-height:1.1; letter-spacing:-.02em; color:var(--ink-hero); margin:18px 0 0; }
+  .hero-inner{ position:relative; z-index:2; max-width:780px; width:100%; display:flex; flex-direction:column; align-items:center; transition:opacity .32s var(--ease); }
+  .hero h1{ font-family:var(--serif); font-weight:500; font-size:clamp(32px,5vw,48px); line-height:1.1; letter-spacing:-.02em; color:var(--ink-hero); margin:18px 0 0; }
   .hero .sub{ font-family:var(--sans); font-size:16px; line-height:1.5; color:var(--muted); margin:22px 0 0; max-width:none; }
 
   /* chat box */
@@ -121,6 +121,10 @@
   .chat-box{ position:relative; z-index:1; background:#fff; border-radius:20px; border:1px solid rgba(36,35,27,.08); padding:24px 24px 18px; text-align:left; box-shadow:0 20px 50px -28px rgba(36,35,27,.4); transition:border-color .4s var(--ease), box-shadow .4s var(--ease); }
   body[data-direction="simple"] .chat-box{ border-color:transparent; }
   .chat-row{ display:block; min-height:88px; }
+  /* suggestion chips in hero */
+  .hero-chips{ display:flex; flex-direction:column; align-items:flex-end; gap:7px; margin-bottom:12px; }
+  .hero-chip{ border:1px solid rgba(36,35,27,.13); border-radius:100px; padding:7px 15px; font-size:13px; color:#6b6560; background:transparent; font-family:var(--sans); cursor:pointer; transition:background .14s, border-color .14s; white-space:nowrap; }
+  .hero-chip:hover{ background:var(--cream); border-color:rgba(36,35,27,.22); }
   .chat-ph{ font-family:var(--sans); font-size:16px; color:#7d776c; }
   .chat-cursor{ display:inline-block; width:1.5px; height:17px; background:var(--accent); margin-left:1px; vertical-align:-3px; animation:blink 1.1s steps(1) infinite; }
   .send{ flex-shrink:0; align-self:flex-end; width:34px; height:34px; border-radius:50%; border:none; cursor:pointer; background:var(--accent); color:#fff; display:grid; place-items:center; transition:background .35s var(--ease), transform .25s var(--ease), opacity .25s var(--ease); }
@@ -158,6 +162,7 @@
   .row-head{ display:flex; align-items:center; gap:28px; padding:28px; cursor:pointer; }
   .row-ill{ flex-shrink:0; width:58px; height:58px; display:grid; place-items:center; color:var(--ink-soft); transition:color .35s var(--ease), transform .35s var(--ease); }
   .row-ill svg{ width:56px; height:56px; overflow:visible; }
+  .row-ill img{ width:100%; height:100%; object-fit:cover; border-radius:12px; display:block; }
   .row:hover .row-ill{ color:var(--accent); transform:translateY(-1px); }
   .row-main{ flex:1; }
   .row-main h3{ font-family:var(--serif); font-size:24px; font-weight:400; line-height:30px; color:var(--ink-2); }
@@ -228,6 +233,82 @@
   .faq{ background:var(--services); }
   /* Simple variant — cooler Paper palette */
   body[data-direction="simple"] .hero{ background:#E3DDD3; }
+  body[data-direction="simple"] .hero-default .eyebrow{ display:none; }
+
+  /* ---------- SOCIAL VARIANT ---------- */
+  body[data-direction="social"]{ --accent:#1E47FF; --accent-d:#1638d6; --accent-cta:#1E47FF; --eyebrow-c:#1E47FF; --ital-c:#1E47FF; --ink:#24231B; --ink-hero:#16203A; --card-dark:#2B3550; --hero-fade:#F5F1EA; }
+  body[data-direction="social"] .hero{ background:#F5F1EA; }
+  body[data-direction="social"] .hero-bg{ opacity:0 !important; }
+  .hero-default{ width:100%; display:flex; flex-direction:column; align-items:center; }
+  .hero-social{ display:none; width:100%; flex-direction:column; align-items:center; }
+  body[data-direction="social"] .hero-default{ display:none; }
+  body[data-direction="social"] .hero-social{ display:flex; }
+  /* per-variant hero copy: legal shows by default, simple swaps in its own */
+  .ht-simple{ display:none; }
+  body[data-direction="simple"] .ht-legal{ display:none; }
+  body[data-direction="simple"] .ht-simple{ display:block; }
+  /* social hero: top-anchored, faces bleed edge-to-edge */
+  body[data-direction="social"] .hero{ justify-content:flex-start; }
+  body[data-direction="social"] .hero-inner{ justify-content:flex-start; }
+  /* face scatter — full viewport bleed using PNG exports from Paper */
+  .face-scatter{ position:relative; width:100vw; max-width:100vw; height:auto; overflow:hidden; margin-bottom:-18px; }
+  .face-cluster-img{ width:100%; height:auto; display:block; margin:0 auto; }
+  @media (min-width:900px){
+    /* keep the banner compact so the hero fits above the fold and faces stay a
+       consistent size while resizing (capped width = no blow-up on wide screens) */
+    body[data-direction="social"] .hero{ padding-top:calc(env(safe-area-inset-top,0px) + 60px); }
+    .face-scatter{ height:auto; margin-bottom:-48px; }
+    .face-cluster-img{ max-width:1040px; }
+    /* tighten the input stack so the whole hero clears the fold */
+    body[data-direction="social"] .chat-wrap{ margin-top:24px; }
+    body[data-direction="social"] .chat-row{ min-height:64px; }
+  }
+  .hero-social h1{ font-family:'Public Sans',sans-serif; font-weight:600; font-size:clamp(28px,4vw,44px); line-height:1.1; letter-spacing:-.01em; color:var(--ink-hero); margin:0 0 16px; max-width:680px; position:relative; z-index:2; }
+  /* keep the social subtitle above the face banner so it never gets covered */
+  .hero-social .sub{ position:relative; z-index:2; }
+  @media (min-width:900px){
+    .hero-social h1{ max-width:920px; }
+  }
+  @media (max-width:560px){
+    body[data-direction="social"] .hero-social h1{ font-size:25px; }
+  }
+  /* social variant: testimonial cards show no face avatars */
+  body[data-direction="social"] .card .avatar{ display:none; }
+  /* social variant: unify all serif titles to Public Sans semibold like the hero */
+  body[data-direction="social"] .sec-title,
+  body[data-direction="social"] .callout h3,
+  body[data-direction="social"] .row-main h3,
+  body[data-direction="social"] .commit h3,
+  body[data-direction="social"] .faq-q h3,
+  body[data-direction="social"] .final h2{
+    font-family:'Public Sans',sans-serif; font-weight:600; letter-spacing:-.01em; line-height:1.12;
+  }
+  /* big section titles match the hero title size */
+  body[data-direction="social"] .sec-title,
+  body[data-direction="social"] .final h2{ font-size:clamp(28px,4vw,44px); }
+  /* social variant: CTA accent line reads white against the dark final section */
+  body[data-direction="social"] .final h2 .ital{ font-family:'Public Sans',sans-serif; font-weight:600; font-style:normal; color:#FFFFFF; }
+  /* social variant: final CTA button is white on the dark section so it stands out */
+  body[data-direction="social"] .final .btn{ background:#FFFFFF; color:#15203A; }
+  body[data-direction="social"] .final .btn:hover{ background:#E7ECFA; }
+  /* social: recolor the dark bottom sections to deep navy to match the blue scheme */
+  body[data-direction="social"] .final,
+  body[data-direction="social"] footer{ background:#141C33; }
+  /* social variant: the send button is the primary CTA — bright electric blue with a glow */
+  body[data-direction="social"] .send{ background:#2D6BFF; width:38px; height:38px; box-shadow:0 8px 20px -5px rgba(45,107,255,.55); }
+  body[data-direction="social"] .send:hover:not(:disabled){ background:#1A57F2; transform:translateY(-2px) scale(1.06); box-shadow:0 12px 26px -6px rgba(45,107,255,.7); }
+  body[data-direction="social"] .send:disabled{ opacity:0.6; }
+  body[data-direction="social"] .callout{ background:rgba(255,255,255,0.5); }
+  /* ===== Social color-direction themes (review options) ===== */
+  /* RED — aggressive, urgent accent on a warm background */
+  body[data-direction="social"][data-theme="red"]{ --accent:#DB2B2B; --accent-d:#b31f1f; --accent-cta:#DB2B2B; --eyebrow-c:#DB2B2B; --ital-c:#DB2B2B; }
+  body[data-direction="social"][data-theme="red"] .hero{ background:#F1EAE4; }
+  body[data-direction="social"][data-theme="red"] .send{ background:#FF3B2F; box-shadow:0 8px 22px -4px rgba(255,59,47,.55); }
+  body[data-direction="social"][data-theme="red"] .send:hover:not(:disabled){ background:#E62518; }
+  /* static bot greeting preview */
+  .social-greeting{ display:flex; align-items:flex-start; gap:14px; background:#fff; border:1px solid rgba(36,35,27,.08); border-radius:16px; padding:18px 20px; max-width:560px; width:100%; text-align:left; box-shadow:0 12px 32px -20px rgba(36,35,27,.3); margin-bottom:24px; }
+  .social-greeting-avatar{ flex-shrink:0; width:32px; height:32px; border-radius:9px; background:var(--accent); display:grid; place-items:center; color:#F3F1E6; font-family:var(--sans); font-size:13px; font-weight:600; }
+  .social-greeting p{ font-family:var(--sans); font-size:15px; line-height:1.55; color:var(--ink-2); }
   body[data-direction="simple"] .services{ background:#E3DDD3; }
   body[data-direction="simple"] .faq{ background:#E3DDD3; }
   body[data-direction="simple"] .testimonials{ background:#D9D4CC; }
@@ -247,7 +328,7 @@
 
   /* ---------- FINAL CTA ---------- */
   .final{ background:var(--ink); text-align:center; padding:128px 40px; transition:background .6s var(--ease); }
-  .final h2{ font-family:var(--serif); font-weight:400; font-size:clamp(30px,4.4vw,48px); line-height:1.16; color:#F1ECE4; max-width:760px; margin:0 auto; }
+  .final h2{ font-family:var(--serif); font-weight:400; font-size:clamp(30px,4.4vw,48px); line-height:1.16; color:#F1ECE4; max-width:760px; margin:0 auto; text-wrap:balance; }
   .final h2 .ital{ color:var(--ital-c); display:inline; }
   .final .btn{ margin-top:40px; }
 
@@ -265,18 +346,35 @@
   .hero-input{ display:block; width:100%; border:none; outline:none; resize:none; background:transparent; font-family:var(--sans); font-size:16px; line-height:1.5; color:var(--ink-2); padding:0; padding-right:54px; max-height:120px; }
   .hero-input::placeholder{ color:#7d776c; opacity:1; }
 
-  /* ---------- FOCUSED CHAT ---------- */
-  .chat-app{ position:fixed; inset:0; z-index:200; display:flex; flex-direction:column; background:var(--paper); visibility:hidden; opacity:0; transition:opacity .38s var(--ease), visibility .38s; }
-  .chat-app.open{ visibility:visible; opacity:1; }
-  /* dissolve the page behind when chat opens */
-  body.chat-open > *:not(#chatApp):not(.switcher):not(svg):not(#nav):not(#mobileMenu){ opacity:0; transition:opacity .28s var(--ease); pointer-events:none; }
-  .chat-app-head{ flex-shrink:0; display:flex; align-items:center; justify-content:space-between; padding:16px 28px; border-bottom:1px solid var(--line); background:rgba(251,249,243,.82); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); }
-  .chat-app-head .brand{ cursor:pointer; }
-  .chat-close{ width:40px; height:40px; border-radius:50%; border:1px solid var(--line); background:#fff; display:grid; place-items:center; cursor:pointer; color:var(--ink-2); transition:background .25s var(--ease), transform .35s var(--ease); }
-  .chat-close:hover{ background:var(--cream); transform:rotate(90deg); }
-  .chat-thread{ flex:1; overflow-y:auto; padding:78px 0 16px; }
-  /* nudge banner */
-  .nudge{ position:absolute; bottom:90px; left:12px; right:12px; background:var(--ink); color:#F1ECE4; border-radius:14px; padding:14px 16px; display:flex; align-items:center; gap:12px; box-shadow:0 12px 32px rgba(36,35,27,.28); transform:translateY(16px); opacity:0; pointer-events:none; transition:opacity .35s var(--ease), transform .35s var(--ease-out); z-index:10; }
+  /* ---------- HERO LAYOUT (flex column, full height) ---------- */
+  .hero-foot{ position:relative; z-index:2; width:100%; display:flex; flex-direction:column; align-items:center; padding-bottom:calc(env(safe-area-inset-bottom, 0px) + 20px); margin-top:0; }
+  /* in chat mode: hero fills exactly the viewport, thread scrolls, foot stays put */
+  body.chat-open .hero{ justify-content:flex-start; height:100dvh; max-height:100dvh; overflow:hidden; }
+  body.chat-open .hero-foot{ margin-top:0; }
+
+  /* ---------- FOCUSED CHAT — no overlay, chat lives inside the hero ---------- */
+  /* chat thread: hidden by default, grows to fill space when chat opens */
+  .chat-thread{ display:none; flex:1; overflow-y:auto; overflow-x:hidden; width:100%; padding-top:24px; flex-direction:column; }
+  body.chat-open .chat-thread{ display:flex; }
+  /* lock page scroll in chat mode */
+  body.chat-open{ overflow:hidden; height:100dvh; }
+  /* dissolve all page sections below hero, scroll-hint, etc — NOT the nav */
+  body.chat-open .scroll-hint,
+  body.chat-open .block,
+  body.chat-open footer,
+  body.chat-open .switcher{ opacity:0; pointer-events:none; transition:opacity .3s var(--ease); position:absolute; visibility:hidden; }
+  /* dissolve hero landing content and illustration */
+  body.chat-open .hero-inner{ opacity:0; pointer-events:none; min-height:0; overflow:hidden; height:0; }
+  body.chat-open .hero-bg{ opacity:0 !important; transition:opacity .4s var(--ease); }
+  body.chat-open .hero::after{ opacity:0; transition:opacity .4s var(--ease); }
+  /* hide landing card, show reply input */
+  body.chat-open #heroCard,
+  body.chat-open .badges,
+  body.chat-open .disclaimer{ display:none; }
+  .chat-reply{ display:none; width:100%; }
+  body.chat-open .chat-reply{ display:block; }
+  /* nudge */
+  .nudge{ position:fixed; bottom:110px; left:12px; right:12px; background:var(--ink); color:#F1ECE4; border-radius:14px; padding:14px 16px; display:flex; align-items:center; gap:12px; box-shadow:0 12px 32px rgba(36,35,27,.28); transform:translateY(16px); opacity:0; pointer-events:none; transition:opacity .35s var(--ease), transform .35s var(--ease-out); z-index:300; }
   .nudge.show{ opacity:1; transform:translateY(0); pointer-events:auto; }
   .nudge-text{ flex:1; font-size:13.5px; line-height:1.45; }
   .nudge-text strong{ display:block; font-weight:600; margin-bottom:2px; }
@@ -284,17 +382,18 @@
   .nudge-cta:hover{ background:var(--accent-d); }
   .nudge-dismiss{ flex-shrink:0; background:transparent; border:none; cursor:pointer; color:rgba(241,236,228,.5); padding:4px; line-height:1; font-size:18px; transition:color .2s; }
   .nudge-dismiss:hover{ color:#F1ECE4; }
-  .msg{ max-width:760px; margin:0 auto 24px; padding:0 28px; display:flex; gap:14px; animation:msgIn .4s var(--ease-out) both; }
-  .msg.user{ justify-content:flex-end; }
-  .msg.user .bubble{ background:var(--accent); color:#F3F1E6; padding:13px 17px; border-radius:18px 18px 5px 18px; font-size:15.5px; line-height:1.55; max-width:78%; transition:background .5s var(--ease); }
-  .msg.bot{ align-items:flex-start; }
+  /* messages — same container as .cai-wrap for edge alignment */
+  .msg{ max-width:760px; width:100%; margin:0 auto 24px; display:flex; gap:14px; animation:msgIn .4s var(--ease-out) both; text-align:left; box-sizing:border-box; }
+  .msg.user{ justify-content:flex-end; padding:0 10px; }
+  .msg.user .bubble{ background:var(--accent); color:#F3F1E6; padding:13px 17px; border-radius:18px 18px 5px 18px; font-size:15.5px; line-height:1.55; max-width:78%; transition:background .5s var(--ease); text-align:left; }
+  .msg.bot{ align-items:flex-start; padding:0 10px; }
   .msg.bot .avatar{ flex-shrink:0; width:32px; height:32px; border-radius:9px; background:var(--accent); display:grid; place-items:center; color:#F3F1E6; margin-top:1px; transition:background .5s var(--ease); }
   .msg.bot .avatar svg{ width:18px; height:18px; }
-  .msg.bot .bubble{ font-size:16px; line-height:1.64; color:var(--ink-2); padding-top:4px; }
+  .msg.bot .bubble{ font-size:16px; line-height:1.64; color:var(--ink-2); padding-top:4px; text-align:left; }
   .typing{ display:flex; gap:5px; padding:8px 0; }
   .typing span{ width:7px; height:7px; border-radius:50%; background:var(--muted-2); animation:typingBob 1.2s infinite ease-in-out; }
   .typing span:nth-child(2){ animation-delay:.15s; } .typing span:nth-child(3){ animation-delay:.3s; }
-  .chat-app-input{ flex-shrink:0; padding:12px 24px calc(20px + env(safe-area-inset-bottom, 0px)); background:linear-gradient(transparent, var(--paper) 32%); }
+  /* reply input */
   .cai-wrap{ max-width:760px; margin:0 auto; display:flex; align-items:flex-end; gap:10px; background:#fff; border:1px solid var(--line); border-radius:18px; padding:10px 10px 10px 18px; box-shadow:0 12px 32px -20px rgba(36,35,27,.45); transition:border-color .25s var(--ease); }
   .cai-wrap:focus-within{ border-color:color-mix(in srgb, var(--accent) 50%, var(--line)); }
   .cai-wrap textarea{ flex:1; min-width:0; border:none; outline:none; resize:none; background:transparent; font-family:var(--sans); font-size:16px; line-height:1.5; color:var(--ink-2); max-height:150px; padding:8px 0; }
@@ -303,7 +402,7 @@
   .cai-disc{ text-align:center; font-size:11px; color:var(--muted-2); margin-top:10px; }
   @keyframes msgIn{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:none; } }
   @keyframes typingBob{ 0%,60%,100%{ transform:translateY(0); opacity:.4; } 30%{ transform:translateY(-5px); opacity:1; } }
-  @media (max-width:900px){ .msg{ padding:0 24px; } .chat-app-input{ padding:10px 20px calc(16px + env(safe-area-inset-bottom, 0px)); } }
+  @media (max-width:900px){ .msg{ padding:0 20px; } .msg.user .bubble{ font-size:14px; } .msg.bot .bubble{ font-size:14px; } .cai-wrap textarea{ font-size:16px; } }
 
   /* ---------- REVEAL ---------- */
   .reveal{ opacity:0; transform:translateY(26px); transition:opacity .9s var(--ease-out), transform .9s var(--ease-out); }
@@ -324,10 +423,16 @@
   /* ---------- RESPONSIVE ---------- */
   @media (max-width:900px){
     .wrap{ padding:0 22px; }
-    .nav{ padding:14px 22px; } .nav.scrolled{ padding:11px 22px; }
+    .nav{ padding:calc(env(safe-area-inset-top, 0px) + 14px) 22px 14px; } .nav.scrolled{ padding:calc(env(safe-area-inset-top, 0px) + 11px) 22px 11px; }
+    body.chat-open .nav{ padding:calc(env(safe-area-inset-top, 0px) + 14px) 22px 14px; }
     .nav-links,.nav-right .login{ display:none; }
     .hamburger{ display:flex; }
-    .nav-right{ gap:12px; }
+    .nav-right{ gap:8px; }
+    .brand{ font-size:18px; } .brand svg{ width:17px; height:21px; }
+    .nav .btn{ font-size:12px; padding:8px 14px; }
+    /* all filled buttons match the nav "Get started" size on mobile */
+    .btn{ font-size:12px; padding:8px 14px; }
+    .btn.lg{ font-size:12px; padding:8px 14px; border-radius:9px; }
     .testimonials{ padding-bottom:22px; }
     section.block.commitments{ padding-top:44px; }
     .commit-grid{ grid-template-columns:1fr; gap:32px; }
@@ -356,12 +461,12 @@
     .callout h3{ font-size:18px; line-height:1.25; }
     .commit h3{ font-size:18px; line-height:1.25; }
     .foot-grid{ grid-template-columns:1fr; }
-    .hero{ padding:90px 22px 70px; min-height:100svh; }
+    .hero{ padding-top:calc(env(safe-area-inset-top,0px) + 70px); padding-left:22px; padding-right:22px; padding-bottom:0; min-height:100svh; }
     .hero h1{ font-size:30px; line-height:1.12; margin-top:12px; }
     .hero .sub{ font-size:14px; line-height:1.45; margin-top:13px; max-width:none; }
     .chat-row{ min-height:74px; }
     .chat-box{ padding:18px 18px 14px; }
-    .hero-input{ font-size:15px; }
+    .hero-input{ font-size:14px; }
     .badges{ gap:7px 20px; margin-top:40px; }
     .badge{ font-size:13px; }
     .disclaimer{ margin-top:12px; font-size:11.5px; }
@@ -436,33 +541,72 @@
       <span class="pill"></span>
       <button class="active" data-dir="legal">Legal</button>
       <button data-dir="simple">Simple</button>
+      <button data-dir="social">Social</button>
     </div>
   </div>
 
   <!-- HERO -->
   <header class="hero" id="top">
     <div class="hero-bg"></div>
-    <div class="hero-inner">
-      <span class="eyebrow reveal in">Small Claims, Simplified</span>
-      <h1 class="reveal in d1">File a small claim without lifting a finger</h1>
-      <p class="sub reveal in d2">Solon reviews your story, files court-ready documents, and manages your case to completion.</p>
 
-      <div class="chat-wrap reveal in d3">
+    <!-- chat thread lives inside the hero, hidden until chat opens -->
+    <div class="chat-thread" id="chatThread"></div>
+    <div class="nudge" id="nudgeBanner">
+      <div class="nudge-text"><strong>Don't lose this conversation</strong>Create a free account to save your chat history.</div>
+      <button class="nudge-cta" id="nudgeCta">Sign up free</button>
+      <button class="nudge-dismiss" id="nudgeDismiss" aria-label="Dismiss">×</button>
+    </div>
+
+    <!-- landing content — dissolves when chat opens -->
+    <div class="hero-inner" id="heroContent">
+      <!-- Default content: Legal + Simple -->
+      <div class="hero-default">
+        <span class="eyebrow reveal in">Small Claims, Simplified</span>
+        <h1 class="reveal in d1 ht-legal">File a small claim without lifting a finger</h1>
+        <h1 class="reveal in d1 ht-simple">Start recovering the money you're owed</h1>
+        <p class="sub reveal in d2 ht-legal">Solon reviews your story, files court-ready documents, and manages your case to completion.</p>
+        <p class="sub reveal in d2 ht-simple">Tell Solon your story. It'll file court-ready documents and manage your case to completion.</p>
+      </div>
+      <!-- Social variant content -->
+      <div class="hero-social">
+        <div class="face-scatter">
+          <picture>
+            <source media="(min-width:900px)" srcset="faces-desktop.png" />
+            <img class="face-cluster-img" src="faces-mobile.png" alt="" />
+          </picture>
+        </div>
+        <h1>Join the hundreds of New Yorkers who got their money back with Solon</h1>
+        <p class="sub" style="margin:0 0 0;">Solon reviews your story, files court-ready documents, and manages your case to completion.</p>
+      </div>
+    </div>
+
+    <!-- input area — always at the bottom of the hero, style shifts in chat mode -->
+    <div class="hero-foot">
+      <!-- landing input card (hidden in chat mode) -->
+      <div class="chat-wrap reveal in d3" id="heroCard">
         <div class="chat-box">
           <div class="chat-row">
-            <textarea id="heroInput" class="hero-input" rows="1" placeholder="Tell Solon about [your landlord]…" aria-label="Describe your situation"></textarea>
+            <textarea id="heroInput" class="hero-input" rows="1" placeholder="My security deposit wasn't returned…" aria-label="Describe your situation"></textarea>
             <button class="send" id="heroSend" aria-label="Send">
               <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
             </button>
           </div>
         </div>
       </div>
-
       <div class="badges reveal in d4">
         <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="11" width="15" height="9" rx="2"/><path d="M8 11V7.5a4 4 0 0 1 8 0V11"/></svg> Private and secure</span>
         <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/></svg> Built with attorney oversight</span>
       </div>
       <p class="disclaimer reveal in d5">This chat is not legal advice; use constitutes agreement to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>
+
+      <!-- reply input (shown only in chat mode) -->
+      <div class="chat-reply" id="chatReply">
+        <div class="cai-wrap">
+          <textarea id="chatAppInput" rows="1" placeholder="Reply to Solon…" aria-label="Message Solon"></textarea>
+          <button class="send" id="chatAppSend" aria-label="Send"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></button>
+        </div>
+        <p class="cai-disc">Solon is a demo assistant — this is not legal advice.</p>
+      </div>
     </div>
   </header>
 
@@ -490,7 +634,7 @@
 
         <div class="row reveal" data-row>
           <div class="row-head">
-            <div class="row-ill" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#inkRough)"><path d="M18 9h22l8 8v40H18z"/><path d="M40 9v8h8"/><path d="M41.5 11.5l5 5" stroke-width="0.6"/><path d="M23 24h16M23 26.2h16" stroke-width="0.7"/><path d="M23 31h19M23 34h19M23 37h19M23 40h13" stroke-width="0.7"/><path d="M23 47c2-2.5 4-2.5 6 0s3.5 2 5.5-.5" stroke-width="0.85"/><path d="M20 21l1.8 1.8M20 26l1.8 1.8M20 31l1.8 1.8M20 36l1.8 1.8M20 41l1.8 1.8" stroke-width="0.4"/><circle cx="40" cy="48" r="6"/><circle cx="40" cy="48" r="2.4" stroke-width="0.7"/><path d="M40 40.5v1.6M40 54v1.6M32.5 48h1.6M46 48h1.6M34.8 42.8l1.1 1.1M45.2 53.2l-1.1-1.1M34.8 53.2l1.1-1.1M45.2 42.8l-1.1 1.1" stroke-width="0.45"/></svg></div>
+            <div class="row-ill"><img src="spot-3.jpg" alt="" /></div>
             <div class="row-main"><h3>Send a demand letter</h3><p>Send a professional demand letter and recover what you're owed.</p></div>
             <div class="row-price"><div class="lbl">Starting at</div><div class="amt">$9</div></div>
             <button class="row-toggle" aria-label="Expand"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
@@ -500,7 +644,7 @@
 
         <div class="row reveal d1" data-row>
           <div class="row-head">
-            <div class="row-ill" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#inkRough)"><g transform="rotate(45 32 28)"><rect x="17" y="21" width="18" height="13" rx="2.5"/><path d="M21.5 21v13M30.5 21v13"/><path d="M23 29.5h9M23 31.8h9M25 27.5l5.5 5.5" stroke-width="0.45"/><path d="M35 27.5h17" stroke-width="1.7"/><path d="M39 25.9h11M39 29.1h11" stroke-width="0.45"/></g><path d="M13 54h24"/><path d="M16 54q9 4 18 0" stroke-width="0.6"/><path d="M18 47l-2.5-3.5M25 45l-1-4M32 47l2.5-3.5" stroke-width="0.8"/></svg></div>
+            <div class="row-ill"><img src="spot-2.jpg" alt="" /></div>
             <div class="row-main"><h3>Sue in Small Claims</h3><p>File a small claims lawsuit without hiring a lawyer.</p></div>
             <div class="row-price"><div class="lbl">Starting at</div><div class="amt">$49</div></div>
             <button class="row-toggle" aria-label="Expand"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
@@ -510,7 +654,7 @@
 
         <div class="row reveal d2" data-row>
           <div class="row-head">
-            <div class="row-ill" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#inkRough)"><circle cx="32" cy="22" r="9.5"/><path d="M24 18q8-6 16 0" stroke-width="0.7"/><path d="M25 15.5q7-4 14 0" stroke-width="0.5"/><path d="M14 54v-3a18 18 0 0 1 36 0v3"/><path d="M26 34l6 9 6-9"/><path d="M32 43l-1.8 4.5 1.8 6 1.8-6z"/><path d="M18 50l4 4M21 48l4 5M24 47l3 5M46 50l-4 4M43 48l-4 5M40 47l-3 5" stroke-width="0.45"/></svg></div>
+            <div class="row-ill"><img src="spot-1.jpg" alt="" /></div>
             <div class="row-main"><h3>Find a lawyer</h3><p>Get matched with experienced attorneys who handle complex cases.</p></div>
             <div class="row-price"><div class="amt">Free</div></div>
             <button class="row-toggle" aria-label="Expand"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
@@ -563,7 +707,7 @@
 
   <!-- FINAL CTA -->
   <section class="final">
-    <h2 class="reveal">With Solon, getting justice is<br/><span class="ital">fast, easy, and affordable.</span></h2>
+    <h2 class="reveal">With Solon, getting justice is <span class="ital">fast, easy, and affordable.</span></h2>
     <div class="reveal d1"><button class="btn lg">Get started <span class="arr">→</span></button></div>
   </section>
 
@@ -595,22 +739,6 @@
     </div>
   </footer>
 
-  <!-- FOCUSED CHAT -->
-  <div class="chat-app" id="chatApp" aria-hidden="true">
-    <div class="chat-thread" id="chatThread"></div>
-    <div class="nudge" id="nudgeBanner">
-      <div class="nudge-text"><strong>Don't lose this conversation</strong>Create a free account to save your chat history.</div>
-      <button class="nudge-cta" id="nudgeCta">Sign up free</button>
-      <button class="nudge-dismiss" id="nudgeDismiss" aria-label="Dismiss">×</button>
-    </div>
-    <div class="chat-app-input">
-      <div class="cai-wrap">
-        <textarea id="chatAppInput" rows="1" placeholder="Reply to Solon…" aria-label="Message Solon"></textarea>
-        <button class="send" id="chatAppSend" aria-label="Send"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></button>
-      </div>
-      <p class="cai-disc">Solon is a demo assistant — this is not legal advice.</p>
-    </div>
-  </div>
 
 <script>
   const body = document.body;
@@ -620,6 +748,23 @@
       document.querySelectorAll('.switcher button').forEach(b=>b.classList.toggle('active', b===btn));
     });
   });
+
+  // Locked single-variant review links: /legal, /action, /social (or ?v=...).
+  // "action" is the public name for the internal "simple" variant.
+  // Optional ?theme= sets a Social color direction: blue (default), bold, red.
+  (function lockVariant(){
+    const alias = { legal:'legal', action:'simple', social:'social' };
+    const fromPath = location.pathname.replace(/\//g,'').toLowerCase();
+    const params = new URLSearchParams(location.search);
+    const fromQuery = (params.get('v')||'').toLowerCase();
+    const theme = (params.get('theme')||'').toLowerCase();
+    if(['bold','red'].includes(theme)) body.setAttribute('data-theme', theme);
+    const key = alias[fromPath] ? fromPath : (alias[fromQuery] ? fromQuery : null);
+    if(!key) return;
+    body.setAttribute('data-direction', alias[key]);
+    const sw = document.querySelector('.switcher');
+    if(sw) sw.style.display = 'none';
+  })();
 
   const hamburger = document.getElementById('hamburger');
   const mobileMenu = document.getElementById('mobileMenu');
@@ -638,7 +783,7 @@
   hint.addEventListener('click', ()=> document.getElementById('services').scrollIntoView({behavior:'smooth'}));
 
   const heroInput = document.getElementById('heroInput');
-  const phrases = ["Tell Solon about [your landlord]…","My security deposit wasn't returned…","A contractor took my money…","I was overcharged on a repair…"];
+  const phrases = ["My security deposit wasn't returned…","A contractor took my money…","I was overcharged on a repair…"];
   let pi=0, ci=0, deleting=false;
   function type(){
     if(heroInput && !heroInput.value && document.activeElement!==heroInput){ heroInput.setAttribute('placeholder', phrases[pi].slice(0, ci)); }
@@ -692,15 +837,12 @@
   }, {threshold:.14, rootMargin:'0px 0px -8% 0px'});
   document.querySelectorAll('.reveal:not(.in)').forEach(el=>io.observe(el));
 
-  /* ---------- FOCUSED CHAT ---------- */
-  const chatApp = document.getElementById('chatApp');
+  /* ---------- CHAT (in-hero, no overlay) ---------- */
   const chatThread = document.getElementById('chatThread');
   const chatAppInput = document.getElementById('chatAppInput');
   const heroSend = document.getElementById('heroSend');
   const nudgeBanner = document.getElementById('nudgeBanner');
-  let chatStarted = false;
-  let userMsgCount = 0;
-  let nudgeShown = false;
+  let chatStarted = false, userMsgCount = 0, nudgeShown = false;
   const greeting = "Hi, I'm Solon. Tell me what happened — an unpaid deposit, a contractor who vanished, money you're owed — and I'll help you understand your options. What's going on?";
   const colIcon = '<span style="font-family:var(--serif);font-size:15px;font-weight:700;line-height:1;letter-spacing:-.02em">S</span>';
 
@@ -731,21 +873,22 @@
     const ind = addTyping();
     setTimeout(()=>{ ind.remove(); addMsg('bot', botReply(text)); }, 950 + Math.random()*500);
   }
+  function blockScroll(e){
+    if(e.target.closest('.chat-thread')) return;
+    e.preventDefault();
+  }
   function openChat(initial){
-    chatApp.classList.add('open');
-    chatApp.setAttribute('aria-hidden', 'false');
+    window.scrollTo(0, 0);
     document.body.classList.add('chat-open');
+    document.addEventListener('touchmove', blockScroll, { passive:false });
     if(initial){ addMsg('user', initial); botRespond(initial); }
     else if(!chatStarted){ addMsg('bot', greeting); }
     chatStarted = true;
-    setTimeout(()=> chatAppInput.focus(), 400);
+    setTimeout(()=> chatAppInput && chatAppInput.focus(), 350);
   }
   function closeChat(){
-    chatApp.classList.remove('open');
-    chatApp.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('chat-open');
-    chatApp.style.height = '';
-    chatApp.style.top = '';
+    document.removeEventListener('touchmove', blockScroll);
   }
   function sendFromApp(){
     const v = chatAppInput.value.trim();
@@ -758,22 +901,10 @@
   document.getElementById('chatAppSend').addEventListener('click', sendFromApp);
   chatAppInput.addEventListener('keydown', e=>{ if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); sendFromApp(); } });
   chatAppInput.addEventListener('input', ()=>{ chatAppInput.style.height = 'auto'; chatAppInput.style.height = Math.min(chatAppInput.scrollHeight, 150) + 'px'; });
-  document.querySelector('.nav .brand').addEventListener('click', e=>{ if(chatApp.classList.contains('open')){ e.preventDefault(); closeChat(); } });
+  document.querySelector('.nav .brand').addEventListener('click', e=>{ if(document.body.classList.contains('chat-open')){ e.preventDefault(); closeChat(); } });
   document.getElementById('nudgeDismiss').addEventListener('click', ()=> nudgeBanner.classList.remove('show'));
   document.getElementById('nudgeCta').addEventListener('click', ()=> nudgeBanner.classList.remove('show'));
-  document.addEventListener('keydown', e=>{ if(e.key === 'Escape' && chatApp.classList.contains('open')) closeChat(); });
-
-  // iOS Safari keyboard: resize chat-app to the visual viewport
-  if(window.visualViewport){
-    const vpHandler = ()=>{
-      if(chatApp.classList.contains('open')){
-        chatApp.style.height = window.visualViewport.height + 'px';
-        chatApp.style.top = window.visualViewport.offsetTop + 'px';
-      }
-    };
-    window.visualViewport.addEventListener('resize', vpHandler);
-    window.visualViewport.addEventListener('scroll', vpHandler);
-  }
+  document.addEventListener('keydown', e=>{ if(e.key === 'Escape' && document.body.classList.contains('chat-open')) closeChat(); });
 
   if(heroInput && heroSend){
     heroSend.disabled = true;
