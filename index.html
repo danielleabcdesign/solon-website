@@ -305,6 +305,52 @@
   body[data-direction="social"][data-theme="red"] .hero{ background:#F1EAE4; }
   body[data-direction="social"][data-theme="red"] .send{ background:#FF3B2F; box-shadow:0 8px 22px -4px rgba(255,59,47,.55); }
   body[data-direction="social"][data-theme="red"] .send:hover:not(:disabled){ background:#E62518; }
+
+  /* ===== Social-proof HEADER MODES (A/B prototypes) ===== */
+  .strip-scatter, .lawyer-badge, .lawyer-portrait{ display:none; }
+
+  /* --- Mode STRIP (Option 4): full-bleed portrait tiles, cool ground --- */
+  body[data-social-header="strip"] .face-scatter{ display:none; }
+  body[data-social-header="strip"] .strip-scatter{ display:flex; justify-content:center; width:100vw; max-width:100vw; overflow:hidden; margin-bottom:6px; }
+  body[data-social-header="strip"] .strip-scatter img{ display:block; height:auto; width:700px; max-width:none; }
+  @media (min-width:900px){
+    body[data-social-header="strip"] .strip-scatter img{ width:100%; max-width:1500px; }
+  }
+  body[data-direction="social"][data-social-header="strip"]{ --accent:#0057DF; --accent-d:#0046b3; --accent-cta:#0057DF; --ink-hero:#282828; }
+  body[data-direction="social"][data-social-header="strip"] .hero{ background:#F5F5F5; }
+  body[data-social-header="strip"] .hero-social .sub{ font-family:'Geist',sans-serif; color:#6E685E; }
+  body[data-social-header="strip"] .send{ background:#0057DF; box-shadow:0 8px 20px -5px rgba(0,87,223,.5); }
+  body[data-social-header="strip"] .send:hover:not(:disabled){ background:#0046b3; }
+
+  /* --- Mode LAWYER (Option 1): split — text left, attorney portrait right --- */
+  .lawyer-badge{ align-items:center; gap:8px; padding:7px 14px 7px 8px; background:rgba(30,71,255,0.09); border-radius:999px; font-family:'Public Sans',sans-serif; font-weight:600; font-size:12px; letter-spacing:.04em; color:var(--accent); margin-bottom:14px; }
+  .lawyer-badge-tick{ display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; border-radius:50%; background:var(--accent); }
+  .lawyer-badge-tick svg{ width:11px; height:11px; }
+  .lawyer-portrait{ overflow:hidden; }
+  .lawyer-portrait img{ width:100%; height:100%; object-fit:cover; object-position:50% 6%; }
+  .lawyer-nametag{ position:absolute; left:24px; bottom:24px; display:flex; flex-direction:column; gap:1px; background:rgba(255,255,255,0.93); border-radius:11px; padding:11px 15px; }
+  .lawyer-nametag .ln-name{ font-family:'Public Sans',sans-serif; font-weight:600; font-size:15px; color:#16203A; }
+  .lawyer-nametag .ln-role{ font-family:'Public Sans',sans-serif; font-weight:400; font-size:13px; color:#5A5448; }
+  body[data-social-header="lawyer"] .face-scatter{ display:none; }
+  body[data-social-header="lawyer"] .lawyer-badge{ display:inline-flex; }
+  body[data-social-header="lawyer"] .lawyer-portrait{ display:block; }
+  @media (min-width:900px){
+    body[data-social-header="lawyer"] .hero{ align-items:flex-start; justify-content:center; padding-top:0; }
+    body[data-social-header="lawyer"] .hero-inner{ align-items:flex-start; width:600px; max-width:600px; padding-left:56px; }
+    body[data-social-header="lawyer"] .hero-social{ align-items:flex-start; }
+    body[data-social-header="lawyer"] .hero-social h1{ text-align:left; max-width:520px; }
+    body[data-social-header="lawyer"] .hero-social .sub{ text-align:left; max-width:460px; }
+    body[data-social-header="lawyer"] .hero-foot{ align-items:flex-start; width:600px; max-width:600px; padding-left:56px; }
+    body[data-social-header="lawyer"] .chat-wrap{ max-width:480px; }
+    body[data-social-header="lawyer"] .badges{ justify-content:flex-start; }
+    body[data-social-header="lawyer"] .disclaimer{ text-align:left; }
+    body[data-social-header="lawyer"] .lawyer-portrait{ position:absolute; top:0; right:0; bottom:0; width:42%; }
+  }
+  @media (max-width:899px){
+    body[data-social-header="lawyer"] .lawyer-portrait{ order:-1; position:relative; width:100vw; max-width:100vw; height:300px; margin-bottom:4px; }
+    body[data-social-header="lawyer"] .hero{ justify-content:flex-start; }
+    body[data-social-header="lawyer"] .lawyer-badge{ margin-bottom:10px; }
+  }
   /* static bot greeting preview */
   .social-greeting{ display:flex; align-items:flex-start; gap:14px; background:#fff; border:1px solid rgba(36,35,27,.08); border-radius:16px; padding:18px 20px; max-width:560px; width:100%; text-align:left; box-shadow:0 12px 32px -20px rgba(36,35,27,.3); margin-bottom:24px; }
   .social-greeting-avatar{ flex-shrink:0; width:32px; height:32px; border-radius:9px; background:var(--accent); display:grid; place-items:center; color:#F3F1E6; font-family:var(--sans); font-size:13px; font-weight:600; }
@@ -575,9 +621,18 @@
             <img class="face-cluster-img" src="faces-mobile.png" alt="" />
           </picture>
         </div>
-        <h1>Join the hundreds of New Yorkers who got their money back with Solon</h1>
-        <p class="sub" style="margin:0 0 0;">Solon reviews your story, files court-ready documents, and manages your case to completion.</p>
+        <!-- Header mode B: full-bleed portrait tile strip (Option 4) -->
+        <div class="strip-scatter"><img src="strip-desktop.png" alt="" /></div>
+        <!-- Header mode C: "Built by lawyers" badge (Option 1) -->
+        <span class="lawyer-badge"><span class="lawyer-badge-tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>BUILT BY LAWYERS</span>
+        <h1>The easiest way to file a small claim, built for everyone</h1>
+        <p class="sub" style="margin:0 0 0;">Tell Solon your story. It then files court-ready documents and manages your case to completion.</p>
       </div>
+    </div>
+    <!-- Header mode C: lawyer portrait (Option 1), absolutely placed on the right -->
+    <div class="lawyer-portrait">
+      <img src="lawyer.jpg" alt="" />
+      <div class="lawyer-nametag"><span class="ln-name">Ben, JD</span><span class="ln-role">NY Bar · reviews every filing</span></div>
     </div>
 
     <!-- input area — always at the bottom of the hero, style shifts in chat mode -->
@@ -759,6 +814,8 @@
     const fromQuery = (params.get('v')||'').toLowerCase();
     const theme = (params.get('theme')||'').toLowerCase();
     if(['bold','red'].includes(theme)) body.setAttribute('data-theme', theme);
+    const header = (params.get('header')||'').toLowerCase();
+    if(['strip','lawyer'].includes(header)) body.setAttribute('data-social-header', header);
     const key = alias[fromPath] ? fromPath : (alias[fromQuery] ? fromQuery : null);
     if(!key) return;
     body.setAttribute('data-direction', alias[key]);
